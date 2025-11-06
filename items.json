@@ -2,19 +2,70 @@
   {
     "name": "Celario Wengi",
     "image": "images/Celario wengi.jpg",
-    "sizes": [
-      {"size": "4 inch", "price": 499},
-      {"size": "6 inch", "price": 599},
-      {"size": "8 inch", "price": 699}
+    "variants": [
+      {"size": "4 inch", "price": 499, "quantity": 180},
+      {"size": "8 inch", "price": 599, "quantity": 44},
+      {"size": "10 inch", "price": 699, "quantity": 100},
+      {"size": "12 inch", "price": 799, "quantity": 100}
     ]
   },
   {
     "name": "Curtain Fennel",
     "image": "images/CurtainFennel.jpg",
-    "sizes": [
-      {"size": "Small", "price": 449},
-      {"size": "Medium", "price": 549},
-      {"size": "Large", "price": 649}
+    "variants": [
+      {"designs": 10, "quantity": 1200}
+    ]
+  },
+  {
+    "name": "Handle 004",
+    "image": "images/Handle 004.jpg",
+    "variants": [
+      {"size": "4 inch", "price": 399, "quantity": 120},
+      {"size": "6 inch", "price": 449, "quantity": 120},
+      {"size": "8 inch", "price": 499, "quantity": 50},
+      {"size": "12 inch", "price": 549, "quantity": 10}
+    ]
+  },
+  {
+    "name": "Handle 244",
+    "image": "images/Handle 244.jpg",
+    "variants": [
+      {"size": "4 inch", "price": 449, "quantity": 100},
+      {"size": "6 inch", "price": 499, "quantity": 80},
+      {"size": "8 inch", "price": 549, "quantity": 60}
+    ]
+  },
+  {
+    "name": "Towerbolt Antique Finish",
+    "image": "images/Towerbolt-antique finish....jpg",
+    "variants": [
+      {"size": "6 inch", "price": 299, "quantity": 300},
+      {"size": "8 inch", "price": 349, "quantity": 300},
+      {"size": "12 inch", "price": 449, "quantity": 75},
+      {"size": "18 inch", "price": 599, "quantity": 70}
+    ]
+  },
+  {
+    "name": "Towerbolt Zylo",
+    "image": "images/Towerbolt zylo.jpg",
+    "variants": [
+      {"size": "4 inch", "price": 199, "quantity": 420},
+      {"size": "6 inch", "price": 249, "quantity": 460},
+      {"size": "8 inch", "price": 299, "quantity": 270}
+    ]
+  },
+  {
+    "name": "Khunti",
+    "image": "images/Khunti.jpg",
+    "variants": [
+      {"type": "Standard", "price": 149, "quantity": 250}
+    ]
+  },
+  {
+    "name": "Flush Handles",
+    "image": "images/Flush handles.jpg",
+    "variants": [
+      {"type": "Standard", "price": 199, "quantity": 300}
     ]
   }
 ]
