@@ -24,4 +24,8 @@ fetch('items.json')
       `;
       container.appendChild(div);
     });
+  })
+  .catch(err => {
+    console.error("Error loading items:", err);
+    document.getElementById('items-container').innerHTML = `<p style="color:red;">Failed to load catalog data.</p>`;
   });
