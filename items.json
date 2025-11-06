@@ -1,0 +1,12 @@
+[
+  {"name": "Hammer", "price": 499, "image": "images/hammer.jpg"},
+  {"name": "Screwdriver Set", "price": 699, "image": "images/screwdriver.jpg"},
+  {"name": "Pliers", "price": 349, "image": "images/pliers.jpg"},
+  {"name": "Adjustable Wrench", "price": 899, "image": "images/wrench.jpg"},
+  {"name": "Measuring Tape", "price": 299, "image": "images/tape.jpg"},
+  {"name": "Drill Machine", "price": 2499, "image": "images/drill.jpg"},
+  {"name": "Toolbox", "price": 1299, "image": "images/toolbox.jpg"},
+  {"name": "Spanner Set", "price": 1099, "image": "images/spanner.jpg"},
+  {"name": "Hand Saw", "price": 599, "image": "images/saw.jpg"},
+  {"name": "Safety Gloves", "price": 199, "image": "images/gloves.jpg"}
+]
