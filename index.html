@@ -18,11 +18,28 @@
       color: white;
       padding: 20px;
       text-align: center;
+      position: relative;
     }
 
     h1 {
       margin: 0;
       font-size: 26px;
+    }
+
+    .view-toggle {
+      position: absolute;
+      right: 20px;
+      top: 22px;
+    }
+
+    .view-toggle button {
+      background: white;
+      color: #1e3a5f;
+      border: none;
+      padding: 6px 12px;
+      font-weight: bold;
+      border-radius: 6px;
+      cursor: pointer;
     }
 
     .search-container {
@@ -42,41 +59,83 @@
 
     main {
       padding: 20px;
-      max-width: 1000px;
+      max-width: 1200px;
       margin: auto;
     }
 
-    table {
-      width: 100%;
-      border-collapse: collapse;
+    /* Grid layout */
+    .grid-view {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
+
+    .item {
       background: white;
+      border-radius: 8px;
+      padding: 12px;
       box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: transform 0.2s;
     }
 
-    th, td {
-      border: 1px solid #ddd;
-      padding: 10px;
-      text-align: center;
+    .item:hover {
+      transform: translateY(-3px);
     }
 
-    th {
-      background: #1e3a5f;
-      color: white;
-    }
-
-    tr:hover {
-      background: #f5f5f5;
-    }
-
-    img {
-      width: 80px;
-      height: 80px;
+    .item img {
+      width: 100%;
+      height: 180px;
       object-fit: cover;
       border-radius: 6px;
       cursor: pointer;
     }
 
-    /* Modal for larger image view */
+    .item h3 {
+      margin: 10px 0 6px 0;
+      text-align: center;
+      font-size: 18px;
+      color: #1e3a5f;
+    }
+
+    .variant-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 6px;
+    }
+
+    .variant-table th, .variant-table td {
+      border: 1px solid #ddd;
+      padding: 6px;
+      text-align: center;
+      font-size: 14px;
+    }
+
+    .variant-table th {
+      background: #f2f2f2;
+      color: #333;
+    }
+
+    /* List view styling */
+    .list-view .item {
+      flex-direction: row;
+      align-items: flex-start;
+      text-align: left;
+    }
+
+    .list-view .item img {
+      width: 120px;
+      height: 120px;
+      margin-right: 15px;
+    }
+
+    .list-view .item h3 {
+      text-align: left;
+    }
+
+    /* Modal for image zoom */
     .modal {
       display: none;
       position: fixed;
@@ -116,25 +175,16 @@
 <body>
   <header>
     <h1>Bombay Tools Hardware and Tools</h1>
+    <div class="view-toggle">
+      <button id="toggleView">Switch to List View</button>
+    </div>
   </header>
 
   <div class="search-container">
     <input type="text" id="search" placeholder="Search by name or size...">
   </div>
 
-  <main>
-    <table id="catalogue">
-      <thead>
-        <tr>
-          <th>Image</th>
-          <th>Item Name</th>
-          <th>Size</th>
-          <th>Quantity</th>
-        </tr>
-      </thead>
-      <tbody></tbody>
-    </table>
-  </main>
+  <main id="catalogue" class="grid-view"></main>
 
   <footer>
     © 2025 Bombay Tools Hardware and Tools
@@ -148,6 +198,7 @@
 
   <script>
     let allItems = [];
+    let isGrid = true;
 
     fetch('items.json')
       .then(r => r.json())
@@ -155,28 +206,38 @@
         allItems = items;
         renderItems(items);
         setupSearch();
+        setupViewToggle();
       });
 
     function renderItems(items) {
-      const tbody = document.querySelector("#catalogue tbody");
-      tbody.innerHTML = "";
+      const container = document.getElementById("catalogue");
+      container.innerHTML = "";
+      container.className = isGrid ? "grid-view" : "list-view";
 
       if (items.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;color:#777;">No matching items found.</td></tr>';
+        container.innerHTML = '<p style="text-align:center;color:#777;">No matching items found.</p>';
         return;
       }
 
       items.forEach(item => {
-        item.variants.forEach(variant => {
-          const row = document.createElement("tr");
-          row.innerHTML = `
-            <td><img src="${item.image}" alt="${item.name}"></td>
-            <td>${item.name}</td>
-            <td>${variant.size || "-"}</td>
-            <td>${variant.quantity || "-"}</td>
-          `;
-          tbody.appendChild(row);
-        });
+        const div = document.createElement("div");
+        div.className = "item";
+
+        const variantRows = item.variants.map(v => `
+          <tr><td>${v.size || "-"}</td><td>${v.quantity || "-"}</td></tr>
+        `).join("");
+
+        div.innerHTML = `
+          <img src="${item.image}" alt="${item.name}">
+          <div class="item-info">
+            <h3>${item.name}</h3>
+            <table class="variant-table">
+              <thead><tr><th>Size</th><th>Quantity</th></tr></thead>
+              <tbody>${variantRows}</tbody>
+            </table>
+          </div>
+        `;
+        container.appendChild(div);
       });
 
       // Image zoom
@@ -184,7 +245,7 @@
       const modalImg = document.getElementById("modalImage");
       const closeModal = document.getElementById("closeModal");
 
-      document.querySelectorAll("td img").forEach(img => {
+      document.querySelectorAll(".item img").forEach(img => {
         img.addEventListener("click", () => {
           modal.style.display = "flex";
           modalImg.src = img.src;
@@ -207,6 +268,15 @@
           return nameMatch || sizeMatch;
         });
         renderItems(filtered);
+      });
+    }
+
+    function setupViewToggle() {
+      const toggleBtn = document.getElementById("toggleView");
+      toggleBtn.addEventListener("click", () => {
+        isGrid = !isGrid;
+        toggleBtn.textContent = isGrid ? "Switch to List View" : "Switch to Grid View";
+        renderItems(allItems);
       });
     }
   </script>
